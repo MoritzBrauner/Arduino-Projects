@@ -6,6 +6,8 @@ bool debug = false;
 #define PIN_CE 7
 #define PIN_CSN 8
 
+//asdasd
+
 #define PIN_FORWARD 2
 #define PIN_BACKWARD 4
 #define PIN_PWM 3
