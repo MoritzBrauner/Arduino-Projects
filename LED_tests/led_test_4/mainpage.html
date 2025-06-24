@@ -1,0 +1,392 @@
+
+    <!DOCTYPE html> 
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Gartenbahn</title>
+        <link rel="icon" type="image/x-icon" href="icon.png">
+
+        <style> 
+             * {
+                margin: 0;
+                padding: 0; 
+                box-sizing: border-box;
+            }
+
+            body {
+                background-color: rgb(23, 36, 69);
+                height: 100vh;
+                width: 100vw;
+                text-align: center;
+                
+            }
+
+            h1 {
+                color:rgb(211, 214, 211);
+            }
+
+            table {
+                
+                width: 100vw;
+                height: 100vh;
+                border-spacing: 0;
+                border-collapse: collapse;
+            }   
+            
+            td {
+                text-align: center;
+                border: 1px solid white; 
+            }
+
+            .richtungswahl {
+                height: 50px;
+                width: 50px;
+                border-radius: 50%;
+                font-size: 200%;
+                background-color: rgb(100, 100, 100);
+            }
+            
+            .currentskill, .speedskill {
+                width: 180px;
+                height: 180px;
+                background-color: rgb(23, 36, 69);
+                position: relative;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            /*Stromstaerke Kreis aussen*/
+            .currentouter {
+                height: 160px;
+                width: 160px;
+                padding: 20px;
+                border-radius: 50%;
+                background-color: rgb(211, 214, 211);   
+            }
+            /* Stromstaerke Kreis innen*/
+            .currentinner {
+                height: 120px;
+                width: 120px;
+                /*border: 1px solid green; */
+                background-color: rgb(23, 36, 69);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .speedouter {
+                height: 160px;
+                width: 160px;
+                padding: 2px;
+                border-radius: 50%;
+                background-color: rgb(211, 214, 211);  
+            }
+
+            .speedinner {
+                height: 156px;
+                width: 156px;
+                background-color: rgb(23, 36, 69);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .speedhub {
+                height: 140px;
+                width: 140px;
+                background-color: rgb(23, 36, 69);
+                border-radius: 50%;
+                z-index: 1;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                
+            }
+
+            .speedmiddle {
+                height: 40px;
+                width: 40px;
+                border-radius: 50%;
+                background-color: rgb(211, 214, 211);
+            }
+
+            #kN {
+                font-weight: 600;
+                color: black;
+                font-size: 30px;
+                color: rgb(211, 214, 211);
+                position: relative; /* Add this */
+                z-index: 1; /* Add this */
+            }
+
+            #AFB {
+                stroke: rgb(242, 173, 0);
+                fill: rgb(242, 173, 0);
+            }
+
+            circle {
+                fill: none;
+                stroke: none ;
+                stroke-width: 21px;
+                stroke-dasharray: 440;
+                stroke-dashoffset: 0;
+                transition: stroke-dashoffset;
+                transform: rotate(-90deg);
+                transform-origin: center;
+            }
+
+            polygon {
+                stroke: rgb(23, 36, 69);
+                fill: rgb(23, 36, 69);
+                
+            }
+           
+            svg {
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+
+            input {
+                    writing-mode: vertical-lr;
+                    direction: rtl;
+                    appearance: slider-vertical;
+                    width: 30px;
+                    vertical-align: bottom;
+                    height: 180px;
+                    width: 50px;
+                    accent-color: rgb(23, 36, 69);
+            }
+        </style>
+    </head>
+    <html>
+        <body onload="SENDDATA()" style="background-color: rgb(41, 49, 51);">
+            <table>
+                <tr>
+                    <td colspan = "5">
+                        <h1>Gartenbahn - Steuerung</h1>
+                    </td>
+                </tr>
+                <tr height=180px;>
+                    <td>
+                        <input id="PWMSLIDER" type="range" min="0" max="255" value="0" disabled="true" oninput="AFBSET(this.value)">
+                    </td>
+                <!--Geschwindigkeitsanzeige-->
+                    <td width="180px">
+                        <div class="speedskill">
+                            <div class="speedouter">
+                                <div class="speedinner">
+                                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="180px" height="180px" >
+                                        <g stroke="rgb(211, 214, 211)"  stroke-width="1">
+                                            <line x1="10" y1="90" x2="170" y2="90" transform="rotate(0, 90, 90)"/>
+                                            <line x1="10" y1="90" x2="170" y2="90" transform="rotate(20, 90, 90)"/>
+                                            <line x1="10" y1="90" x2="170" y2="90" transform="rotate(40, 90, 90)"/>
+                                            <line x1="10" y1="90" x2="170" y2="90" transform="rotate(60, 90, 90)"/>
+                                            <line x1="10" y1="90" x2="170" y2="90" transform="rotate(80, 90, 90)"/>
+                                            <line x1="10" y1="90" x2="170" y2="90" transform="rotate(100, 90, 90)"/>
+                                            <line x1="10" y1="90" x2="170" y2="90" transform="rotate(120, 90, 90)"/>
+                                            <line x1="10" y1="90" x2="170" y2="90" transform="rotate(140, 90, 90)"/>
+                                            <line x1="10" y1="90" x2="170" y2="90" transform="rotate(160, 90, 90)"/>
+                                            
+                                        </g>
+                                        <polygon points="0 180, 50 130, 130 130, 180 180"></polygon>
+                                    </svg>
+                                    <div class="speedhub">
+                                        <div class="speedmiddle">
+                                            <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="180px" height="180px">
+                                                <line class="speedindicator" stroke-width="6" stroke="rgb(211, 214, 211)" x1="90" y1="90" x2="35" y2="90" transform="rotate(-40, 90, 90)" stroke-linecap="round"/>
+                                                <line class="speedindicator" stroke-width="2" stroke="rgb(211, 214, 211)" x1="90" y1="90" x2="15" y2="90" transform="rotate(-40, 90, 90)" stroke-linecap="round"/>
+                                                <text x="90" y="135" text-anchor="middle" fill="rgb(211, 214, 211)">km/h</text>
+                                                <text id="speedreadout"x="90" y="95" text-anchor="middle">0</text>
+                                                <polygon id="AFB" points="90 180, 85 175, 90 170, 95 175" transform="rotate(50, 90, 90)"></polygon>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>    
+                <!--Richtungsauswahl-->
+                    <td>
+                        <button id="btn_vor" class="richtungswahl" onclick="Richtungchange('vor')">&#8657</button>
+                        <br>
+                        <button id="btn_stop" class="richtungswahl" onclick="Stop()">&#8861</button>
+                        <br>
+                        <button id="btn_zurueck" class="richtungswahl" onclick="Richtungchange('zurueck')">&#8659</button>
+                    </td>   
+                <!--Stromstaerkenanzeige-->
+                    <td width="180px">
+                        <div class="currentskill">
+                            <div class="currentouter">
+                                <div class="currentinner">
+                                    <div id="kN">kN</div>
+                                </div>
+                            </div>
+                            <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="180px" height="180px" >
+                                <g stroke="rgb(23, 36, 69)"  stroke-width="1">
+                                    <line x1="0" y1="90" x2="180" y2="90" transform="rotate(0, 90, 90)"/>
+                                    <line x1="0" y1="90" x2="180" y2="90" transform="rotate(15, 90, 90)"/>
+                                    <line x1="0" y1="90" x2="180" y2="90" transform="rotate(30, 90, 90)"/>
+                                    <line x1="0" y1="90" x2="180" y2="90" transform="rotate(45, 90, 90)"/>
+                                    <line x1="0" y1="90" x2="180" y2="90" transform="rotate(60, 90, 90)"/>
+                                    <line x1="0" y1="90" x2="180" y2="90" transform="rotate(75, 90, 90)"/>
+                                    <line x1="0" y1="90" x2="180" y2="90" transform="rotate(90, 90, 90)"/>
+                                    <line x1="0" y1="90" x2="180" y2="90" transform="rotate(105, 90, 90)"/>
+                                    <line x1="0" y1="90" x2="180" y2="90" transform="rotate(120, 90, 90)"/>
+                                    <line x1="0" y1="90" x2="180" y2="90" transform="rotate(135, 90, 90)"/>
+                                    <line x1="0" y1="90" x2="180" y2="90" transform="rotate(150, 90, 90)"/>
+                                    <line x1="0" y1="90" x2="180" y2="90" transform="rotate(165, 90, 90)"/>
+                                </g>
+                                <polygon points="0 180, 50 130, 130 130, 180 180"></polygon>
+                                <text x="90" y="155" text-anchor="middle" fill="white" font-size="10">Bremsen | Zugkraft</text>
+                                <text x="95" y="165" text-anchor="right" fill="white" font-size="10">pro FM</text>
+                                <line x1="90" y1="168" x2="90" y2="145" stroke="white" stroke-width="2" />
+                                <circle cx="90" cy="90" r="70" stroke-linecap="flat"/>
+                                
+                            </svg>
+                        </div>                
+                    </td>
+                    <td>
+                        <input id="slider_interval" type="range" min="1" max="100" value="1" oninput="CURRENTINPUT(this.value)" onchange="IntervalSliderchange(this.value)">
+                    </td> 
+                </tr>
+                <tr>
+                    <td colspan="5">
+                        <button id="btn_nothalt" onclick="NOTHALT()">Nothalt</button>
+                    </td>
+                </tr>
+            </table>
+    </body>
+    <script type="text/javascript">
+        
+        let Sollwert = 0; 
+        let Interval = 100;
+        let Richtung = ""; 
+
+        let backsollwert = ""; 
+        let backistwert = "";
+        let backinterval = ""; 
+        let backrichtung = "";  
+
+        function SENDDATA() { 
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {  
+                    let backrawdata = this.responseText;
+                
+                    let trenn1 = backrawdata.indexOf("-");
+                    let trenn2 = backrawdata.indexOf("-", trenn1 + 1);
+                    let trenn3 = backrawdata.indexOf("-", trenn2 + 1);
+
+                    backsollwert = backrawdata.substring(0, trenn1);
+                    backistwert = backrawdata.substring(trenn1 + 1, trenn2);
+                    backinterval = backrawdata.substring(trenn2 + 1, trenn3);
+                    backrichtung = backrawdata.substring(trenn3 +1);
+
+                    SPEEDINPUT(backistwert);
+                    SENDDATA();
+                } 
+            }
+            if (backrichtung != "") {
+                document.getElementById("PWMSLIDER").disabled = false;
+            }
+            if (backrichtung == "vor") {
+                console.log("vor");
+                document.getElementById("btn_vor").style.backgroundColor = "rgb(211, 214, 211)";
+                document.getElementById("btn_zurueck").style.backgroundColor = "rgb(100, 100, 100)";
+            } else if (backrichtung == "zurueck") {
+                document.getElementById("btn_vor").style.backgroundColor = "rgb(100, 100, 100)";
+                document.getElementById("btn_zurueck").style.backgroundColor = "rgb(211, 214, 211)"; 
+                console.log("zuruck");   
+            }
+            xhttp.open("PUT", "UPDATE_DATA?DATA="+ Sollwert + "-" + Interval + "-" + Richtung, true);
+            xhttp.send();
+        }
+
+        function NOTHALT() { 
+            var knopf = document.getElementById("btn_nothalt"); 
+            var xhttp = new XMLHttpRequest();
+            xhttp.open("PUT", "NOTHALT", true);
+            xhttp.send();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {  
+                    if (this.responseText == "nothalt") {
+                        sollwert = 0; 
+                        knopf.style.backgroundColor = "red";
+                    } else {
+                        knopf.style.backgroundColor = "white";
+                    }
+                } 
+            }
+            
+        }
+        
+        function Stop() {
+            if (Sollwert == 0) {
+                document.getElementById("slider_interval").value = 100; 
+            }
+            Sollwert = 0; 
+            document.getElementById("PWMSLIDER").value = 0; 
+        }
+
+        function AFBSET(value) {
+            
+            let AFBneedle = document.getElementById("AFB");
+            let rotation;
+
+            rotation = (value /1) + 50 ;
+
+            AFBneedle.setAttribute("transform", `rotate(${rotation}, 90, 90)`);
+            Sollwert = value;
+
+        }
+
+        //Steuerung Geschwindigkeit
+        function SPEEDINPUT(value) {
+            let speed = value; 
+            let rotation;
+            let needle = document.getElementsByClassName("speedindicator");
+
+            document.getElementById("speedreadout").innerHTML = value;
+
+            rotation = speed -40;
+
+            // Apply the rotation to each needle element
+            for (let i = 0; i < needle.length; i++) {
+                needle[i].setAttribute("transform", `rotate(${rotation}, 90, 90)`);
+            }
+        }
+
+        function IntervalSliderchange(value) {
+            Interval = 101 - value; 
+        }
+
+        function Richtungchange(richtung) {
+            Richtung = richtung; 
+        }
+
+
+        let current = 0;
+        let circle = document.querySelector("circle");
+        let offset;
+        let color; 
+
+        function CURRENTINPUT(value) {
+            current = value;
+            if (current >= 0) {
+            color = "rgb(11, 133, 215)"; 
+            } else { 
+            color = "rgb(242, 173, 0)"
+            }
+            circle.style.stroke = color; 
+            offset = 440 - (440 * current) / 2740; 
+            circle.style.strokeDashoffset = offset;
+        }
+
+
+
+
+    </script>
+    </html>

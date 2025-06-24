@@ -1,0 +1,96 @@
+const char PAGE_MAIN[] PROGMEM = R"=====(
+    <!DOCTYPE html> 
+    <head>
+        <meta charset="utf-8">
+        <style> 
+            #PWMSlider {
+                width: 30%;
+            }
+        </style>
+    </head>
+    <html>
+        <body style="background-color: rgb(41, 49, 51);">
+            <center>
+                <h1>LED-Test Startseite</h1>
+                <br>
+                <br>
+                <p> 
+                    <div id="Anzeige">0</div> 
+                </p>
+                <br> 
+                <input id="PWMSlider" type="range" min="0" max="255" value="0" disabled="true" onchange="PWMSliderchange(this.value)" oninput="PWMInput(this.value)">
+                <br>
+                <input id="slider_step" type= "range" min="1" max="10" value="5" onchange="StepSliderchange(this.value)" oninput="StepInput(this.value)"> 
+                <p id="Schrittweite"> 5 </p>
+                <br>
+                <button id="btn_front" onclick="Directionchange('front')">Vorwärts</button>
+                <button id="btn_stop" onclick="Stopp()" disabled="true">Stopp</button>
+                <button id="btn_back" onclick="Directionchange('back')">Rückwärts</button>
+            </center>
+    </body>
+    <script type="text/javascript">
+
+        function PWMInput(value) {
+            document.getElementById("Anzeige").innerHTML = value; 
+
+        }   
+        function StepInput(value) {
+            document.getElementById("Schrittweite").innerHTML = value; 
+        }
+
+        function StepSliderchange(value) {
+            document.getElementById("Schrittweite").innerHTML = value;
+            document.getElementById("slider_step").value = value; 
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                }
+            }
+            xhttp.open("PUT", "UPDATE_STEPSLIDER?VALUE="+ value, true);
+            xhttp.send();
+        }
+
+        function PWMSliderchange(value) {
+                document.getElementById("PWMSlider").value = value;
+                //document.getElementById("Anzeige").innerHTML = Math.round(value / 2.55);
+                document.getElementById("Anzeige").innerHTML = value; 
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                    }
+                }
+                xhttp.open("PUT", "UPDATE_PWMSLIDER?VALUE="+ value, true);
+                xhttp.send();
+        }
+        function Stopp() {
+            if (document.getElementById("PWMSlider").value == 0) {
+                StepSliderchange(10);
+            }
+            PWMSliderchange(0);
+        }
+        function Directionchange(direction) {  
+            if (direction == "front") {
+                document.getElementById("btn_front").disabled = true;
+                document.getElementById("btn_back").disabled = false;
+                document.getElementById("btn_stop").disabled = false;
+                document.getElementById("PWMSlider").disabled = false;  
+            } else if (direction == "back") {
+                document.getElementById("btn_front").disabled = false; 
+                document.getElementById("btn_back").disabled = true;
+                document.getElementById("btn_stop").disabled = false;
+                document.getElementById("PWMSlider").disabled = false;
+            }   
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                }
+            }
+            xhttp.open("PUT", "UPDATE_DIRECTION?VALUE="+ direction, true);
+            xhttp.send();
+        }
+
+        
+        
+    </script>
+    </html>
+)=====";
